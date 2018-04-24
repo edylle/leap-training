@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.vanhack.leap.javatraining.client.SpotifyClient;
 import com.vanhack.leap.javatraining.model.spotify.Items;
 import com.vanhack.leap.javatraining.model.spotify.Query;
@@ -29,7 +30,9 @@ public class LeapController {
 	}
 
 	@GetMapping("/songs")
+	@HystrixCommand(fallbackMethod = "tracksFallback")
 	public ResponseEntity<?> getSongsOf(@RequestParam(value = "query") String query) {
+		
 		Token token = spotifyClient.getToken();
 		Query queryResponse = spotifyClient.getTracksBy(query, token.getAccess_token());
 
@@ -38,6 +41,18 @@ public class LeapController {
 		for (Items item : queryResponse.getTracks().getItems()) {
 			songs.add(item.getName());
 		}
+
+		return new ResponseEntity<>(songs, HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> tracksFallback(@RequestParam(value = "query") String query) {
+		List<String> songs = new ArrayList<>();
+
+		songs.add("SONG 1");
+		songs.add("SONG 2");
+		songs.add("SONG 3");
+		songs.add("SONG 4");
+		songs.add("SONG 5");
 
 		return new ResponseEntity<>(songs, HttpStatus.OK);
 	}
