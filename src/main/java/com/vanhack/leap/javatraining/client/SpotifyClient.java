@@ -21,8 +21,8 @@ public class SpotifyClient {
 	private static final String TOKEN_URL = "https://accounts.spotify.com/api/token";
 	private static final String SEARCH_URL = "https://api.spotify.com/v1/search";
 
-	private static final String CLIENT_ID = "b5ff173621084e79a780aa1c7e848bd4"; // you need to inform your own client id
-	private static final String CLIENT_SECRET = "523970b8d6824bc0b105f800ec7f0a7f"; // you need to inform your own client secret
+	private static final String CLIENT_ID = ""; // you need to inform your own client id
+	private static final String CLIENT_SECRET = ""; // you need to inform your own client secret
 
 	public Token getToken() {
 		RestTemplate restTemplate = new RestTemplate();
