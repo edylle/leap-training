@@ -26,7 +26,6 @@ public class SpotifyClient {
 
 	public Token getToken() {
 		RestTemplate restTemplate = new RestTemplate();
-
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(CLIENT_ID, CLIENT_SECRET));
 
 		HttpHeaders headers = new HttpHeaders();
@@ -36,7 +35,6 @@ public class SpotifyClient {
 		map.add("grant_type", "client_credentials");
 
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-
 		ResponseEntity<Token> response = restTemplate.exchange(TOKEN_URL, HttpMethod.POST, request, Token.class);
 
 		return response.getBody();
